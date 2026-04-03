@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in</title>
+<style>
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+body {
+margin: 0;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+background: linear-gradient(to bottom, #e6f0fa, #cfe2f3);
+}
+.login-container {
+width: 360px;
+background: #ffffff;
+padding: 35px;
+border-radius: 12px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+/* Logo */
+.logo {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 25px;
+}
+.logo span {
+font-size: 32px;
+font-weight: 700;
+color: #117aca;
+letter-spacing: 1px;
+}
+/* Inputs */
+input {
+width: 100%;
+padding: 12px;
+margin: 10px 0 15px 0;
+border: 1px solid #ccc;
+border-radius: 6px;
+font-size: 14px;
+}
+/* Options */
+.options {
+display: flex;
+justify-content: space-between;
+font-size: 13px;
+margin-bottom: 15px;
+}
+/* Button */
+button {
+width: 100%;
+padding: 12px;
+background: #117aca;
+color: white;
+border: none;
+border-radius: 6px;
+font-weight: bold;
+cursor: pointer;
+}
+button:hover { background: #0d5f9c; }
+/* Links */
+.links {
+text-align: center;
+margin-top: 12px;
+font-size: 13px;
+}
+.links a {
+color: #117aca;
+text-decoration: none;
+}
+.links a:hover { text-decoration: underline; }
+/* Steps */
+.step { display: none; }
+.step.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+<!-- Logo -->
+<div class="logo">
+<span>CHASE</span>
+<svg width="28" height="28" viewBox="0 0 100 100" style="margin-left:8px;">
+<polygon points="35,0 65,0 100,35 100,65 65,100 35,100 0,65 0,35" fill="#117aca"/>
+<polygon points="45,20 55,20 80,45 80,55 55,80 45,80 20,55 20,45" fill="white"/>
+</svg>
+</div>
+
+<!-- Form -->
+<form id="loginForm">
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+<input type="text" id="username" placeholder="Username">
+<div class="options">
+<label><input type="checkbox"> Remember me</label>
+</div>
+<button type="button" onclick="nextStep()">Next</button>
+<div class="links">
+<a href="#">Forgot username/password?</a>
+</div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="step2">
+<input type="hidden" name="username" id="hiddenUsername">
+<input type="password" name="password" placeholder="Password">
+<div class="options">
+<label><input type="checkbox" name="remember"> Remember me</label>
+</div>
+<button type="button" onclick="submitForm()">Sign in</button>
+<div class="links">
+<a href="#">Forgot password?</a>
+</div>
+</div>
+</form>
+</div>
+
+<script>
+function nextStep(){
+var user = document.getElementById("username").value;
+if(user === ""){
+alert("Enter username");
+return;
+}
+document.getElementById("hiddenUsername").value = user;
+document.getElementById("step1").classList.remove("active");
+document.getElementById("step2").classList.add("active");
+}
+
+function submitForm(){
+alert("Form ready to send serverless request");
+}
+</script>
+
+</body>
+</html>
