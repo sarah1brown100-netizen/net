@@ -1,0 +1,5 @@
+# netlify.toml
+[build]
+command = "" # empty because static site
+publish = "." # root of repo
+functions = "netlify/functions"
